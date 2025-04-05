@@ -4,7 +4,7 @@ pipeline {
     environment {
         AZURE_CREDENTIALS_ID = 'azure-service-principal'
         RESOURCE_GROUP = 'rg-jenkins'
-        APP_SERVICE_NAME = 'webapiIntegratedBrijesh001'
+        APP_SERVICE_NAME = 'webapiIntegratedavinash001'
     }
 
     stages {
@@ -17,7 +17,7 @@ pipeline {
 
         stage('Run Terraform Script') {
             steps {
-                dir('Terraform') {
+                dir('terraform') {
                     bat 'terraform init'
                     bat 'terraform validate'
                     bat 'terraform plan -out=tfplan'
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Restore Dependencies') {
             steps {
-                dir('WebAppTerraformIntegrated') {
+                dir('webapplicationintegrated') {
                     bat 'dotnet restore'
                 }
             }
@@ -36,7 +36,7 @@ pipeline {
 
         stage('Build Project') {
             steps {
-                dir('WebAppTerraformIntegrated') {
+                dir('webapplicationintegrated') {
                     bat 'dotnet build --configuration Release'
                 }
             }
@@ -44,7 +44,7 @@ pipeline {
 
         stage('Publish Artifacts') {
             steps {
-                dir('WebAppTerraformIntegrated') {
+                dir('webapplicationintegrated') {
                     bat 'dotnet publish -c Release -o publish'
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
 
         stage('Deploy to Azure') {
             steps {
-                dir('WebAppTerraformIntegrated') {
+                dir('webapplicationintegrated') {
                     withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
                         bat '''
                         az login --service-principal -u %AZURE_CLIENT_ID% -p %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%
