@@ -11,7 +11,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/brijeshprajapati53/Integrate-Terraform-with-Jenkins-Pipeline.git'
+                git branch: 'main', url: 'https://github.com/Avinash739jecrc/integratedwepapp.git'
             }
         }
 
